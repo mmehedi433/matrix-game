@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matrix Game</title>
+
+
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            --border-color: #6f7bff;
+        }
+
+        body {
+            background: #f2f5ff;
+            color: #262626;
+        }
+
+        .container {
+            width: 600px;
+            margin: auto;
+            background: #f2f5ff;
+            height: 100vh;
+            padding: 10px 15px;
+            text-align: center;
+        }
+
+        .gameContent {
+            background: #d1dbff33;
+
+            width: 400px;
+            height: 200px;
+            margin: auto;
+            margin-top: 30px;
+            border-right: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-template-rows: repeat(4, 1fr);
+        }
+
+        .matrix {
+            background: #29339b;
+            border: 1px solid var(--border-color);
+            border-right: none;
+            border-bottom: none;
+        }
+
+        .matrix.selected {
+            background-color: #ff2929;
+        }
+
+        .matrix.filled p {
+            cursor: no-drop;
+        }
+
+        .matrix p {
+            display: grid;
+            height: 100%;
+            align-content: center;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .alert p {
+            width: 400px;
+            margin: auto;
+            text-align: left;
+            margin-top: 20px;
+            padding: 5px;
+            transition: all 0.3s;
+            font-size: 16px;
+            color: #ff5964;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="rules">
+            <h1>Matrix Game</h1>
+        </div>
+
+        <div class="gameContent">
+            <div class="matrix">
+                <p></p>
+            </div>
+            <div class="matrix">
+                <p></p>
+            </div>
+            <div class="matrix">
+                <p></p>
+            </div>
+            <div class="matrix">
+                <p></p>
+            </div>
+            <div class="matrix">
+                <p></p>
+            </div>
+            <div class="matrix">
+                <p></p>
+            </div>
+            <div class="matrix">
+                <p></p>
+            </div>
+            <div class="matrix">
+                <p></p>
+            </div>
+            <div class="matrix">
+                <p></p>
+            </div>
+            <div class="matrix">
+                <p></p>
+            </div>
+            <div class="matrix">
+                <p></p>
+            </div>
+            <div class="matrix">
+                <p></p>
+            </div>
+            <div class="matrix">
+                <p></p>
+            </div>
+            <div class="matrix">
+                <p></p>
+            </div>
+            <div class="matrix">
+                <p></p>
+            </div>
+            <div class="matrix">
+                <p></p>
+            </div>
+        </div>
+
+        <div class="alert">
+            <p></p>
+        </div>
+    </div>
+
+</body>
+
+<!-- <script src="temp1.js"></script> -->
+<script>
+    let allBoxes = document.querySelectorAll(".matrix p");
+    let alertContent = document.querySelector(".alert p");
+    let timer;
+
+    let counter = 0;
+    let veryPrevious, previous, current;
+
+    [...allBoxes].forEach((box) => {
+        box.addEventListener("click", (event) => {
+            let temp_current = event.target.parentElement;
+            if (counter < 16 && !temp_current.classList.contains("filled")) {
+                veryPrevious = previous;
+
+                previous = current;
+
+                current = temp_current;
+
+                if (veryPrevious) {
+                    veryPrevious.classList.remove("selected");
+                }
+
+                temp_current.classList.add("selected");
+                temp_current.classList.add("filled");
+                event.target.innerText = `BOX #${++counter}`;
+            } else if (counter == 16) {
+                alertShow("All boxes filled. Refresh to play again");
+            } else if (temp_current.classList.contains("filled")) {
+                alertShow("Its already Selected, Select another box");
+            }
+
+            function alertShow(text) {
+                // This helps to show alert
+                clearTimeout(timer);
+
+                alertContent.innerText = text;
+
+                timer = setTimeout(() => {
+                    alertContent.innerText = "";
+                }, 2000);
+            }
+        });
+    });
+
+</script>
+
+</html>
